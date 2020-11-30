@@ -28,6 +28,8 @@ listener.on('newItem', async item => {
     .setURL(item.link)
     .setDescription(`${item.type} | \`${body.status.description}\`\n\n${item.description}`)
 
+
+  if (item.description.startsWith('THIS IS A SCHEDULED EVENT')) return; // there is a bug with the package, so i disabled the maintenance.
   if (item.type === 'Investigating') embed.setColor('RED')
   if (item.type === 'Identified') embed.setColor('#e67e22')
   if (item.type === 'Monitoring') embed.setColor('#ffff00')
