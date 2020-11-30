@@ -4,23 +4,25 @@ const { token, webhookChannelID, webhookToken } = require('./config.json');
 const fs = require("fs");
 const StatusPage = require("statuspage.io-listener");
 const webhookClient = new Discord.WebhookClient(webhookChannelID, webhookToken);
+const fetch = require('node-fetch');
 
 client.on('ready', () => {
   console.log('Mr. Slay is Ready')
 });
 
-let listener = new StatusPage.Listener("https://slaybot.statuspage.io/history.rss", readFunction, writeFunction)
+let listener = new StatusPage.Listener("https://3h6r33zjscwy.statuspage.io/history.rss", readFunction, writeFunction)
  
 listener.on('ready', () => { console.log("Statuspage Listener is Ready!") })
 listener.on('error', error => { console.error(error) })
 
-listener.on('newItem', item => { 
+listener.on('newItem', async item => { 
+  const body = await fetch('https://3h6r33zjscwy.statuspage.io/api/v2/status.json').then(res => res.json())
+
   console.log(item)
   const embed = new Discord.MessageEmbed()
-    .setTitle(item.title)
+    .setTitle(`<:warn:772527442664620043> ${item.title}`)
     .setURL(item.link)
-    .setDescription(item.description)
-    .setFooter(item.type)
+    .setDescription(`${item.type} | \`${body.status.description}\`\n\n${item.description}`)
 
   if (item.type === 'Investigating') embed.setColor('RED')
   if (item.type === 'Identified') embed.setColor('#e67e22')
