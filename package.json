@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "mongoose": "^5.10.18"
+    "mongoose": "^5.10.18",
+    "statuspage.io-listener": "^1.0.0"
   }
 }
